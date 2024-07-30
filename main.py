@@ -1,3 +1,7 @@
+"""
+python main.py path/to/input/file path/to/output/file
+"""
+
 import re
 import json
 import argparse
@@ -8,19 +12,16 @@ def read_subtitle_file(file_path):
         return file.read()
 
 def split_into_chunks(subtitle_text):
-    # Используем регулярное выражение для разбиения текста по шаблону "число.\\n"
     chunks = re.split(r'\d+\.\s*\n', subtitle_text)
     return [chunk.strip() for chunk in chunks if chunk.strip()]
 
 def parse_chunk(chunk):
     lines = chunk.split('\n')
     if len(lines) < 2:
-        return None  # Пропускаем чанки, у которых меньше двух строк
+        return None
 
-    # Берем только первые две строки
     content = lines[:2]
 
-    # Соединяем строки для нужного формата
     return '\n'.join(content)
 
 def convert_to_custom_format(chunks):
