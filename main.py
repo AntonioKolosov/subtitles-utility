@@ -1,3 +1,8 @@
+"""
+python main.py path/to/input/file path/to/output/file
+"""
+
+
 import re
 import json
 import argparse
@@ -49,7 +54,7 @@ def main(input_file, output_file):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Subtitle chunk converter utility.')
     parser.add_argument('input_file', type=str, help='Path to the input subtitle file.')
-    parser.add_argument('output_file', type=str, nargs='?', help='Path to the output JSON file. If not provided, saves in the same directory as input file with _output.json suffix.')
+    parser.add_argument('output_file', type=str, nargs='?', help='Path to the output JSON file. If not provided, saves in the same directory.')
     
     args = parser.parse_args()
     
@@ -57,6 +62,6 @@ if __name__ == "__main__":
         output_file = args.output_file
     else:
         base, _ = os.path.splitext(args.input_file)
-        output_file = f"{base}_output.json"
+        output_file = f"{base}.json"
     
     main(args.input_file, output_file)
