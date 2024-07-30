@@ -1,5 +1,7 @@
-.venv/
+utilityvenv/
 build/
 lib/
 .vscode
 __pycache__/
+he_dolly.txt
+he_dolly_converted.json
