@@ -1,8 +1,7 @@
 ﻿## Subtitles Utility
 
 ### File system structure      
-├── main.py 
-│
+├── main.py  
 ├── .gitignore  
 ├── README.md  
 
