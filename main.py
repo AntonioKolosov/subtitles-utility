@@ -52,7 +52,7 @@ def main(input_file, output_file):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Subtitle chunk converter utility.')
     parser.add_argument('input_file', type=str, help='Path to the input subtitle file.')
-    parser.add_argument('output_file', type=str, nargs='?', help='Path to the output JSON file. If not provided, saves in the same directory as input file with _output.json suffix.')
+    parser.add_argument('output_file', type=str, nargs='?', help='Path to the output JSON file. If not provided, saves in the same directory as file with _output.json suffix.')
     
     args = parser.parse_args()
     
