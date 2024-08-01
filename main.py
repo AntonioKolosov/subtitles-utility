@@ -46,8 +46,9 @@ def divide_to_chunks(subtile_text):
 def main(input_file, output_file):
     subtitle_text = read_subtitle_file(input_file)
     chunks = divide_to_chunks(subtitle_text)
+    file_name = os.path.splitext(os.path.basename(input_file))[0]
     content = {
-        "name": "ru_data", # !!!!!! from file name
+        "name": file_name,
         "content": chunks
     }
     save_to_json(content, output_file)
