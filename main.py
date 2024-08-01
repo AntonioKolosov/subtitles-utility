@@ -2,16 +2,16 @@
 python main.py path/to/input/file path/to/output/file
 """
 
-from itertools import groupby
 import re
 import json
 import argparse
 import os
+import sys
+
 
 def read_subtitle_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         return [line.rstrip() for line in file]
-        # return file.readlines()
 
 def save_to_json(data, output_file):
     with open(output_file, 'w', encoding='utf-8') as file:
@@ -57,6 +57,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Subtitle chunk converter utility.')
     parser.add_argument('input_file', type=str, help='Path to the input subtitle file.')
     parser.add_argument('output_file', type=str, nargs='?', help='Path to the output JSON file. If not provided, saves in the same directory as file with _output.json suffix.')
+    
+    if len(sys.argv) == 1:
+        parser.print_help()
+        print("You should specify parameters!")
+        sys.exit(1)
     
     args = parser.parse_args()
     
