@@ -8,12 +8,26 @@ import argparse
 import os
 import sys
 
+from dotenv import load_dotenv
 
-def read_subtitle_file(file_path):
+def build_full_paths(show, name, lang):
+    ''''''
+    load_dotenv()
+
+    input_folder = os.environ.get("ORIGINAL", "original")
+    output_folder = os.environ.get("DATA", "data")
+    input_folder += f'/{show}'
+    output_folder += f'/{show}'
+    input_file = f'{input_folder}/{name}'
+    output_file = f'{output_folder}/{lang}_data.json'
+  
+    return (input_file, output_file)
+
+def read_src_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         return [line.rstrip() for line in file]
 
-def save_to_json(data, output_file):
+def save_to_dest_file(data, output_file):
     with open(output_file, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -43,32 +57,23 @@ def divide_to_chunks(subtile_text):
     
     return chunks
 
-def main(input_file, output_file):
-    subtitle_text = read_subtitle_file(input_file)
-    chunks = divide_to_chunks(subtitle_text)
-    file_name = os.path.splitext(os.path.basename(input_file))[0]
-    content = {
-        "name": file_name,
+def main(show, name, lang):
+    (input_file, output_file) = build_full_paths(show, name, lang)
+    original_text = read_src_file(input_file)
+    chunks = divide_to_chunks(original_text)
+
+    output_data = {
+        "name": f'{lang}_data',
         "content": chunks
     }
-    save_to_json(content, output_file)
+    save_to_dest_file(output_data, output_file)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Subtitle chunk converter utility.')
-    parser.add_argument('input_file', type=str, help='Path to the input subtitle file.')
-    parser.add_argument('output_file', type=str, nargs='?', help='Path to the output JSON file. If not provided, saves in the same directory as file with _output.json suffix.')
-    
-    if len(sys.argv) == 1:
-        parser.print_help()
-        print("You should specify parameters!")
-        sys.exit(1)
-    
+    parser = argparse.ArgumentParser(description='Subtitle converter utility.')
+    parser.add_argument('show', type=str, help='Path to the folder with the original text.')
+    parser.add_argument('name', type=str, help='name of the file with the original text.')
+    parser.add_argument('lang', type=str, help='language en, he, ru.')
+      
     args = parser.parse_args()
-    
-    if args.output_file:
-        output_file = args.output_file
-    else:
-        base, _ = os.path.splitext(args.input_file)
-        output_file = f"{base}_output.json"
-    
-    main(args.input_file, output_file)
+       
+    main(args.show, args.name, args.lang)
