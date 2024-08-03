@@ -1,0 +1,5 @@
+# Folder where original files are stored
+ORIGINAL=in
+
+# Folder where converted files will be stored
+DATA=out
