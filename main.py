@@ -6,16 +6,20 @@ import re
 import json
 import argparse
 import os
-import sys
+from os import listdir
+from os.path import isfile, join
+import time
 
-from dotenv import load_dotenv
+def list_folder(folder):
+    ''''''
+    onlyfiles = [f for f in listdir(folder)]
+    # onlyfiles = [f for f in listdir(folder) if isfile(join(folder, f))]
+    print(onlyfiles)
 
 def build_full_paths(show, name, lang):
     ''''''
-    load_dotenv()
-
-    input_folder = os.environ.get("ORIGINAL", "original")
-    output_folder = os.environ.get("DATA", "data")
+    input_folder = 'in'
+    output_folder = 'out'
     input_folder += f'/{show}'
     output_folder += f'/{show}'
     input_file = f'{input_folder}/{name}'
@@ -58,7 +62,11 @@ def divide_to_chunks(subtile_text):
     return chunks
 
 def main(show, name, lang):
+    # list_folder('./')
     (input_file, output_file) = build_full_paths(show, name, lang)
+    print(f'Files: original - {input_file}, converted - {output_file}')
+    # time.sleep(3600)
+
     original_text = read_src_file(input_file)
     chunks = divide_to_chunks(original_text)
 
